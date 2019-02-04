@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">OrderOnline</string>
+    <string name="create_a_new_account">Create a new account</string>
+    <string name="login">Login</string>
+    <string name="enter_mail">Enter your mail</string>
+    <string name="offline">offline</string>
+</resources>

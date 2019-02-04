@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1022780730803",
+    "firebase_url": "https://order-580b2.firebaseio.com",
+    "project_id": "order-580b2",
+    "storage_bucket": "order-580b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022780730803:android:98bd715fab3294ca",
+        "android_client_info": {
+          "package_name": "com.dentistry.ahmed.orderonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022780730803-8n22njkvc961fu9f2ibqjijvup99c77i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dentistry.ahmed.orderonline",
+            "certificate_hash": "4627951a83f651bd817ea7018f65b0e4e56f0f34"
+          }
+        },
+        {
+          "client_id": "1022780730803-ekek350jmmebdbjla3h9pbn5jkrjkki1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG8MNQDrHRSVjIy8B36xINUKibL0pQCDM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022780730803-ekek350jmmebdbjla3h9pbn5jkrjkki1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
