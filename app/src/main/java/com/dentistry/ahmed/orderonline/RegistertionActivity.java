@@ -109,6 +109,7 @@ public class RegistertionActivity extends AppCompatActivity {
                             hashMap.put("Email",email);
                             hashMap.put("ImageURL", "default");
                             hashMap.put("Number of orders", 0);
+                            hashMap.put("birthday", "1/10/1993");
 
 
 

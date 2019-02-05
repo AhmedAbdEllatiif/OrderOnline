@@ -6,14 +6,15 @@ public class User {
     private String userName;
     private String ImageURL;
     private String Email;
+    private String birthday;
 
     public User() {}
 
-    public User(String id, String userName, String imageURL, String email) {
+    public User(String id, String userName, String ImageURL,String birthday) {
         this.id = id;
         this.userName = userName;
-        ImageURL = imageURL;
-        Email = email;
+        this.ImageURL = ImageURL;
+        this.birthday = birthday;
     }
 
     public String getId() {
@@ -46,5 +47,13 @@ public class User {
 
     public void setEmail(String email) {
         Email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 }
