@@ -6,16 +6,113 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".1" />
+
+    <ImageView
+        android:id="@+id/img_newOrder"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/add"
+        app:layout_constraintEnd_toStartOf="@id/img_trackOrder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+
+    <ImageView
+        android:id="@+id/img_trackOrder"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/orders"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_newOrder"
+        app:layout_constraintTop_toBottomOf="@id/guideLine" />
+
+
     <TextView
+        android:id="@+id/txt_createneworder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        android:text="Create new order"
+        app:layout_constraintEnd_toEndOf="@id/img_newOrder"
+        app:layout_constraintStart_toStartOf="@id/img_newOrder"
+        app:layout_constraintTop_toBottomOf="@id/img_newOrder" />
+
+    <TextView
+        android:id="@+id/txt_manage_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        android:text="Manage your Orders"
+        app:layout_constraintEnd_toEndOf="@id/img_trackOrder"
+        app:layout_constraintStart_toStartOf="@id/img_trackOrder"
+        app:layout_constraintTop_toBottomOf="@id/img_trackOrder" />
+
+
+    <ImageView
+        android:id="@+id/img_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/profile"
+        app:layout_constraintEnd_toStartOf="@+id/img_trackOrder"
+        app:layout_constraintStart_toEndOf="@id/img_newOrder"
+        app:layout_constraintTop_toBottomOf="@id/img_trackOrder" />
+
+
+    <TextView
+        android:id="@+id/txt_edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="3dp"
+        android:text="View Profile"
+        app:layout_constraintEnd_toEndOf="@id/img_profile"
+        app:layout_constraintStart_toStartOf="@id/img_profile"
+        app:layout_constraintTop_toBottomOf="@id/img_profile" />
 
     <android.support.constraint.Guideline
+        android:id="@+id/guideLine_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".7" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/deals_recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideLine_bottom">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        android:id="@+id/txt_hotDeals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hot Deals !!!"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@id/guideLine_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <!-- <android.support.constraint.Guideline
         android:id="@+id/guideLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +139,6 @@
         app:layout_constraintStart_toStartOf="@+id/g"
         app:layout_constraintTop_toTopOf="@id/guideLine"
         android:src="@drawable/ic_add"
-        tools:ignore="RtlCompat" />
+        tools:ignore="RtlCompat" />-->
 
 </android.support.constraint.ConstraintLayout>

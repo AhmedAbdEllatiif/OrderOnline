@@ -1,14 +1,29 @@
 package com.dentistry.ahmed.orderonline.Adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.dentistry.ahmed.orderonline.Model.Order;
 import com.dentistry.ahmed.orderonline.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
+
+    List<Order> orderList;
+    Context context;
+
+    public OrdersAdapter(Context context,List<Order> orderList) {
+        this.orderList = orderList;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -20,17 +35,37 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            Order orderItem = orderList.get(position);
+
+            holder.title.setText(orderItem.getOrderTitle());
+            holder.txt_desc.setText(orderItem.getOrderDescription());
+
+            if(orderItem.getImageUrl().equals("default")){
+                holder.orderImage.setImageResource(R.mipmap.ic_launcher);
+            }else {
+                Picasso.get().load(orderItem.getImageUrl()).into(holder.orderImage);
+            }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return orderList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+            TextView title;
+            TextView txt_desc;
+            ImageView orderImage;
+
         public ViewHolder(View itemView) {
             super(itemView);
+
+            title = itemView.findViewById(R.id.title);
+            txt_desc = itemView.findViewById(R.id.txt_desc);
+            orderImage = itemView.findViewById(R.id.orderImage);
+
         }
     }
 }
