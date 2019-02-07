@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewOrderActivity">
+
+    <TextView
+        android:id="@+id/txt_newOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Order"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/txt_pickItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick a new Item"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_newOrder"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="RtlCompat" />
+
+   <android.support.v7.widget.RecyclerView
+        android:id="@+id/items_recyclerView"
+       android:layout_width="match_parent"
+       android:layout_height="150dp"
+       app:layout_constraintTop_toBottomOf="@id/txt_pickItem"
+       >
+
+
+   </android.support.v7.widget.RecyclerView>
+
+
+
+
+
+    <TextView
+        android:id="@+id/txt_pickColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick a color"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/items_recyclerView"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="RtlCompat" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/color_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:layout_constraintTop_toBottomOf="@id/txt_pickColor"
+        />
+
+
+
+    <TextView
+        android:id="@+id/txt_pickQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick quantity"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/color_recyclerView"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="RtlCompat" />
+
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/txt_pickQuantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+         />
+
+
+
+
+</android.support.constraint.ConstraintLayout>

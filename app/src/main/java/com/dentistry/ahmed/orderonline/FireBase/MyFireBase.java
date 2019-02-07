@@ -15,6 +15,7 @@ public class MyFireBase {
     private static FirebaseDatabase FirebaseDatabase;
     private static FirebaseStorage firebaseStorage;
     private static DatabaseReference referenceOnAllUsers;
+    private static DatabaseReference referenceOnItem;
     private static DatabaseReference referenceOnDeals;
     private static DatabaseReference referenceOnCurrentUser;
     private static DatabaseReference referenceOnDataBase;
@@ -97,6 +98,11 @@ public class MyFireBase {
     public static DatabaseReference getReferenceOnDeals() {
 
         return referenceOnAllUsers = getGetFirebaseDatabase().getReference("deals");
+    }
+
+    public static DatabaseReference getReferenceOnItems() {
+
+        return referenceOnAllUsers = getGetFirebaseDatabase().getReference("items");
     }
 
     public static DatabaseReference getReferenceOnCurrentUserID() {

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.dentistry.ahmed.orderonline.Adapters.DealsAdapters;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
@@ -32,6 +34,8 @@ private RecyclerView recyclerView;
 private DealsAdapters adapter;
 private List<Deals> dealsList;
 private ImageView img_profile;
+private ImageView img_newOrder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ private ImageView img_profile;
 
         recyclerView = findViewById(R.id.deals_recyclerView);
         img_profile = findViewById(R.id.img_profile);
+        img_newOrder = findViewById(R.id.img_newOrder);
+       //NumberPicker numberPicker = findViewById(R.id.numberPicker);
 
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +64,19 @@ private ImageView img_profile;
                 finish();
             }
         });
+        img_newOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,NewOrderActivity.class));
+                finish();
+            }
+        });
+
+
+
+
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         dealsList =  new ArrayList<>();
@@ -82,4 +101,6 @@ private ImageView img_profile;
 
 
     }
+
+
 }
