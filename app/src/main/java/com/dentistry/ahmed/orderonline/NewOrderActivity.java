@@ -1,5 +1,7 @@
 package com.dentistry.ahmed.orderonline;
 
+import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +20,12 @@ import com.dentistry.ahmed.orderonline.Adapters.ItemsAdapter;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
 import com.dentistry.ahmed.orderonline.Model.Color;
 import com.dentistry.ahmed.orderonline.Model.Item;
+import com.dentistry.ahmed.orderonline.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -34,18 +40,16 @@ public class NewOrderActivity extends AppCompatActivity {
     private List<Item> itemList;
     private RecyclerView recyclerView;
     private ItemsAdapter adapter;
-
     private List<Color> colorList;
     private RecyclerView recyclerView_color;
     private ColorAdapter adapter_color;
-
     private Button btn_submit;
     private Button btn_addItem;
     private Button btn_addColor;
 
     private String color;
 
-Item item = new Item();
+    Item item = new Item();
 
 
     public String getColor() {
@@ -61,13 +65,21 @@ Item item = new Item();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
 
-
-        intiViews();
-
         itemList = new ArrayList<>();
         colorList = new ArrayList<>();
 
+        intiViews();
 
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                    updateCurrentUserInfo();
+            }
+        });
+
+
+        //Get items
         MyFireBase.getReferenceOnItems().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,14 +89,7 @@ Item item = new Item();
                     Log.e("Item",item.getCompany());
                 itemList.add(item);
                 }
-                Log.e("Item",itemList.size()+"");
-
-
-               /* adapter = new ItemsAdapter(NewOrderActivity.this,itemList);
-                recyclerView.setAdapter(adapter);*/
-
                setAdapter(adapter,itemList);
-
             }
 
             @Override
@@ -92,6 +97,9 @@ Item item = new Item();
 
             }
         });
+
+
+        //Get colors
         MyFireBase.getReferenceOnColors().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -110,6 +118,27 @@ Item item = new Item();
             }
         });
 
+       //submit to make order
+        submit();
+
+    }
+
+    private void intiViews() {
+        recyclerView = findViewById(R.id.items_recyclerView);
+        recyclerView_color = findViewById(R.id.color_recyclerView);
+        numberPicker = findViewById(R.id.numberPicker);
+        btn_addItem = findViewById(R.id.btn_addItem);
+        btn_addColor = findViewById(R.id.btn_addColor);
+        btn_submit = findViewById(R.id.btn_submit);
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(5);
+
+
+    }
+
+
+
+    private void submit(){
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,22 +194,9 @@ Item item = new Item();
             }
         });
 
-
-
     }
 
-    private void intiViews() {
-        recyclerView = findViewById(R.id.items_recyclerView);
-        recyclerView_color = findViewById(R.id.color_recyclerView);
-        numberPicker = findViewById(R.id.numberPicker);
-        btn_addItem = findViewById(R.id.btn_addItem);
-        btn_addColor = findViewById(R.id.btn_addColor);
-        btn_submit = findViewById(R.id.btn_submit);
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(5);
 
-
-    }
 
     SnapHelper snapHelper;
     LinearLayoutManager layoutManager;
@@ -192,9 +208,6 @@ Item item = new Item();
         recyclerView.setAdapter(adapter);
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-
-
-
 
         btn_addItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +249,38 @@ Item item = new Item();
     }
 
 
+    public void updateCurrentUserInfo(){
+        MyFireBase.getReferenceOnAllUsers().child(MyFireBase.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User user1 = dataSnapshot.getValue(User.class);
+
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(user1.getUserName())
+                                .build();
+
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("user", "User profile updated.");
+                                        }
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+    }
 
 
     NumberPicker.OnValueChangeListener onValueChangeListener =

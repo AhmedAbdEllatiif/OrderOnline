@@ -32,7 +32,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <!-- //////////////////////////////////////////////////////////////////////////////// -->
 
-        <activity android:name=".NewOrderActivity"></activity>
+        <activity android:name=".NewOrderActivity" />
+        <activity android:name=".Orders"></activity>
     </application>
 
 </manifest>
