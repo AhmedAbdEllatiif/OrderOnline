@@ -37,6 +37,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Order orderItem = orderList.get(position);
 
+            Picasso.get().load(orderItem.getImage_URL()).into(holder.orderImage);
+            holder.title.setText(orderItem.getOrderName());
+            holder.txt_orderName.setText(orderItem.getOrderName());
+            holder.txt_desc.setText(orderItem.getDescription());
+            holder.txt_orderColor.setText(orderItem.getColor());
+            holder.txt_orderQuantity.setText(String.valueOf(orderItem.getQuantity()));
 
 
 
@@ -50,6 +56,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
             TextView title;
             TextView txt_desc;
+            TextView txt_orderColor;
+            TextView txt_orderName;
+            TextView txt_orderQuantity;
+
             ImageView orderImage;
 
         public ViewHolder(View itemView) {
@@ -57,6 +67,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
             title = itemView.findViewById(R.id.title);
             txt_desc = itemView.findViewById(R.id.txt_desc);
+            txt_orderColor = itemView.findViewById(R.id.txt_orderColor);
+            txt_orderName = itemView.findViewById(R.id.txt_orderName);
+            txt_orderQuantity = itemView.findViewById(R.id.txt_orderQuantity);
             orderImage = itemView.findViewById(R.id.orderImage);
 
         }

@@ -35,6 +35,9 @@ private DealsAdapters adapter;
 private List<Deals> dealsList;
 private ImageView img_profile;
 private ImageView img_newOrder;
+private ImageView img_trackOrder;
+
+
 
 
     @Override
@@ -55,7 +58,7 @@ private ImageView img_newOrder;
         recyclerView = findViewById(R.id.deals_recyclerView);
         img_profile = findViewById(R.id.img_profile);
         img_newOrder = findViewById(R.id.img_newOrder);
-       //NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        img_trackOrder = findViewById(R.id.img_trackOrder);
 
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +76,15 @@ private ImageView img_newOrder;
         });
 
 
-
+        img_trackOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Orders.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 

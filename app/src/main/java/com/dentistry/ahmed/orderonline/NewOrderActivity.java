@@ -1,5 +1,6 @@
 package com.dentistry.ahmed.orderonline;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -121,6 +122,9 @@ public class NewOrderActivity extends AppCompatActivity {
        //submit to make order
         submit();
 
+
+
+
     }
 
     private void intiViews() {
@@ -173,16 +177,23 @@ public class NewOrderActivity extends AppCompatActivity {
                 hashMap.put("price",orderPrice);
                 hashMap.put("description",orderDescription);
                 hashMap.put("color",orderColor);
-                hashMap.put("quantity",quantity);
+                hashMap.put("quantity",String.valueOf(quantity));
+                hashMap.put("orderName",orderTitle);
 
 
 
                 MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
-                        .setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        .push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(NewOrderActivity.this, "Order saved", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(NewOrderActivity.this, Orders.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+
                         } else {
                             Toast.makeText(NewOrderActivity.this, "Order didn't save", Toast.LENGTH_SHORT).show();
                         }
@@ -241,7 +252,7 @@ public class NewOrderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 View view = snapHelper_color.findSnapView(layoutManager_color);
                 int position = recyclerView_color.getChildAdapterPosition(view);
-                setColor(colorList.get(position).getURl());
+                setColor(colorList.get(position).getName());
             }
         });
 

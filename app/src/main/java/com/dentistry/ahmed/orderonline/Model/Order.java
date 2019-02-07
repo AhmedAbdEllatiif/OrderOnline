@@ -7,19 +7,22 @@ public class Order {
     private String title;
     private String Email;
     private String image_URL;
+    private String orderName;
     private String price;
     private String description;
     private String color;
     private int quantity;
 
-    public Order(String orderID) {}
+    public Order() {}
 
-    public Order(String id, String userName, String title, String email, String image_URL, String price, String description, String color, int quantity) {
+    public Order(String id, String userName, String title, String email, String image_URL, String orderName,
+                 String price, String description, String color, int quantity) {
         this.id = id;
         this.userName = userName;
         this.title = title;
         Email = email;
         this.image_URL = image_URL;
+        this.orderName = orderName;
         this.price = price;
         this.description = description;
         this.color = color;
@@ -96,5 +99,13 @@ public class Order {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
     }
 }
