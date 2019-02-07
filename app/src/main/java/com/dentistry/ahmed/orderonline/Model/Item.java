@@ -6,16 +6,20 @@ public class Item {
     private String color;
     private String company;
     private String price;
+    private String name;
+    private String description;
 
 
     public Item() {
     }
 
-    public Item(String image, String color, String company, String price) {
+    public Item(String image, String color, String company, String price, String name, String description) {
         this.image = image;
         this.color = color;
         this.company = company;
         this.price = price;
+        this.name = name;
+        this.description = description;
     }
 
     public String getImage() {
@@ -48,5 +52,21 @@ public class Item {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

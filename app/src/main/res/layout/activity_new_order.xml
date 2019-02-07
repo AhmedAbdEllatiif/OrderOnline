@@ -32,14 +32,27 @@
 
    <android.support.v7.widget.RecyclerView
         android:id="@+id/items_recyclerView"
-       android:layout_width="match_parent"
-       android:layout_height="150dp"
+       android:layout_width="0dp"
+       android:layout_height="120dp"
        app:layout_constraintTop_toBottomOf="@id/txt_pickItem"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toStartOf="@id/btn_addItem"
        >
 
 
    </android.support.v7.widget.RecyclerView>
 
+
+    <Button
+        android:id="@+id/btn_addItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/add"
+        android:layout_margin="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/items_recyclerView"
+        app:layout_constraintBottom_toBottomOf="@id/items_recyclerView"
+        />
 
 
 
@@ -59,12 +72,23 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/color_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
         app:layout_constraintTop_toBottomOf="@id/txt_pickColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_addColor"
         />
 
-
+    <Button
+        android:id="@+id/btn_addColor"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/color_recyclerView"
+        app:layout_constraintBottom_toBottomOf="@id/color_recyclerView"
+        android:layout_margin="1dp"
+        />
 
     <TextView
         android:id="@+id/txt_pickQuantity"
@@ -82,7 +106,7 @@
     <NumberPicker
         android:id="@+id/numberPicker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -93,6 +117,19 @@
          />
 
 
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:padding="3dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/numberPicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
 
 
 </android.support.constraint.ConstraintLayout>

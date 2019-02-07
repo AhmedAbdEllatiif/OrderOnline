@@ -17,6 +17,8 @@ public class MyFireBase {
     private static DatabaseReference referenceOnAllUsers;
     private static DatabaseReference referenceOnItem;
     private static DatabaseReference referenceOnDeals;
+    private static DatabaseReference referenceOnColors;
+    private static DatabaseReference referenceOnOrders;
     private static DatabaseReference referenceOnCurrentUser;
     private static DatabaseReference referenceOnDataBase;
     private static DatabaseReference referenceOnChats;
@@ -103,6 +105,16 @@ public class MyFireBase {
     public static DatabaseReference getReferenceOnItems() {
 
         return referenceOnAllUsers = getGetFirebaseDatabase().getReference("items");
+    }
+
+    public static DatabaseReference getReferenceOnColors() {
+
+        return referenceOnAllUsers = getGetFirebaseDatabase().getReference("colors");
+    }
+
+    public static DatabaseReference getReferenceOnOrders() {
+
+        return referenceOnAllUsers = getGetFirebaseDatabase().getReference("orders");
     }
 
     public static DatabaseReference getReferenceOnCurrentUserID() {

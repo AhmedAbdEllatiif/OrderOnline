@@ -37,14 +37,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Order orderItem = orderList.get(position);
 
-            holder.title.setText(orderItem.getOrderTitle());
-            holder.txt_desc.setText(orderItem.getOrderDescription());
 
-            if(orderItem.getImageUrl().equals("default")){
-                holder.orderImage.setImageResource(R.mipmap.ic_launcher);
-            }else {
-                Picasso.get().load(orderItem.getImageUrl()).into(holder.orderImage);
-            }
 
 
     }
