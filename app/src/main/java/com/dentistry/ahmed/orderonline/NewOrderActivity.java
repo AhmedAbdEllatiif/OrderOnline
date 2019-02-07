@@ -161,7 +161,7 @@ public class NewOrderActivity extends AppCompatActivity {
                 userName = MyFireBase.getCurrentUser().getDisplayName();
                 Email  = MyFireBase.getCurrentUser().getEmail();
                 orderTitle = item.getName();
-                orderImage_URL = item.getName();
+                orderImage_URL = item.getImage();
                 orderPrice = item.getPrice();
                 orderDescription = item.getDescription();
                 orderColor = getColor();
@@ -177,7 +177,7 @@ public class NewOrderActivity extends AppCompatActivity {
                 hashMap.put("price",orderPrice);
                 hashMap.put("description",orderDescription);
                 hashMap.put("color",orderColor);
-                hashMap.put("quantity",String.valueOf(quantity));
+                hashMap.put("quantity",quantity);
                 hashMap.put("orderName",orderTitle);
 
 
