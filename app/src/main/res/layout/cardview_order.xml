@@ -5,11 +5,25 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:contentPadding="5dp"
+    app:cardElevation="5dp"
+    android:layout_marginTop="5dp"
     >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/img_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlCompat" />
 
         <TextView
             android:id="@+id/title"
@@ -24,8 +38,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/orderImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@mipmap/ic_launcher"
             android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
@@ -39,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Description of order"
-            android:textSize="10sp"
+            android:textSize="15sp"
             android:padding="2dp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="5dp"
@@ -56,6 +70,17 @@
             android:text="Name"
             android:textSize="20sp"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/txt_orderName_fixed"
+            app:layout_constraintTop_toBottomOf="@id/txt_desc"
+            tools:ignore="RtlCompat" />
+        <TextView
+            android:id="@+id/txt_orderName_fixed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
             app:layout_constraintStart_toStartOf="@id/txt_desc"
             app:layout_constraintTop_toBottomOf="@id/txt_desc"
             />
@@ -65,6 +90,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Color"
+            android:textSize="20sp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toEndOf="@id/txt_orderColor_fixed"
+            app:layout_constraintTop_toTopOf="@id/txt_orderName"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlCompat" />
+        <TextView
+            android:id="@+id/txt_orderColor_fixed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color: "
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/txt_orderName"
             app:layout_constraintTop_toTopOf="@id/txt_orderName"
@@ -78,10 +114,19 @@
             android:text="Quantity"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/txt_orderName"
-            app:layout_constraintStart_toEndOf="@id/txt_orderName"
-            app:layout_constraintEnd_toStartOf="@id/txt_orderColor"
-            />
+            app:layout_constraintStart_toEndOf="@id/txt_orderQuantity_fixed"
+            android:layout_marginStart="3dp"
+            tools:ignore="RtlCompat" />
+        <TextView
+            android:id="@+id/txt_orderQuantity_fixed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity: "
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/txt_orderName"
+            app:layout_constraintStart_toStartOf="@id/txt_orderName_fixed"
 
+            />
 
 
     </android.support.constraint.ConstraintLayout>

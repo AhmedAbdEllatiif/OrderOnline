@@ -17,12 +17,18 @@ import java.util.List;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
 
-    List<Order> orderList;
-    Context context;
+    private List<Order> orderList;
+    private Context context;
+    private onItemClickListener onEditClickListener;
+
 
     public OrdersAdapter(Context context,List<Order> orderList) {
         this.orderList = orderList;
         this.context = context;
+    }
+
+    public void setOnEditClickListener(onItemClickListener onEditClickListener) {
+        this.onEditClickListener = onEditClickListener;
     }
 
     @NonNull
@@ -34,8 +40,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Order orderItem = orderList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+            final Order orderItem = orderList.get(position);
 
             Picasso.get().load(orderItem.getImage_URL()).into(holder.orderImage);
             holder.title.setText(orderItem.getOrderName());
@@ -45,6 +51,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             holder.txt_orderQuantity.setText(String.valueOf(orderItem.getQuantity()));
 
 
+
+            if(onEditClickListener!=null){
+                holder.img_edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onEditClickListener.onClick(position,orderItem);
+                    }
+                });
+            }
 
     }
 
@@ -60,6 +75,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             TextView txt_orderName;
             TextView txt_orderQuantity;
 
+            ImageView img_edit;
             ImageView orderImage;
 
         public ViewHolder(View itemView) {
@@ -71,7 +87,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             txt_orderName = itemView.findViewById(R.id.txt_orderName);
             txt_orderQuantity = itemView.findViewById(R.id.txt_orderQuantity);
             orderImage = itemView.findViewById(R.id.orderImage);
+            img_edit = itemView.findViewById(R.id.img_edit);
 
         }
+    }
+
+    public interface onItemClickListener{
+        void onClick(int position,Order order);
     }
 }

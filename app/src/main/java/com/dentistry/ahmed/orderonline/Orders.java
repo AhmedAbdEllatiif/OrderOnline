@@ -1,5 +1,6 @@
 package com.dentistry.ahmed.orderonline;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,13 +37,30 @@ public class Orders extends AppCompatActivity {
         MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                orderList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                    Order order = snapshot.getValue(Order.class);
                    orderList.add(order);
                 }
                 adapter = new OrdersAdapter(Orders.this,orderList);
                 recyclerView.setAdapter(adapter);
+
+                adapter.setOnEditClickListener(new OrdersAdapter.onItemClickListener() {
+                    @Override
+                    public void onClick(int position, Order order) {
+
+                        Intent intent = new Intent(Orders.this,NewOrderActivity.class);
+                        intent.putExtra("imageURL",order.getImage_URL());
+                        intent.putExtra("color",order.getColor());
+                        intent.putExtra("quantity",order.getQuantity());
+                        intent.putExtra("OrderID",order.getId());
+                        intent.putExtra("Ahmed","1");
+
+
+                        startActivityForResult(intent,20);
+
+                    }
+                });
             }
 
             @Override

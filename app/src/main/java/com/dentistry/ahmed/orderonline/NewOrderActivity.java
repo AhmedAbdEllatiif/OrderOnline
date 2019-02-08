@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dentistry.ahmed.orderonline.Adapters.ColorAdapter;
@@ -47,7 +48,7 @@ public class NewOrderActivity extends AppCompatActivity {
     private Button btn_submit;
     private Button btn_addItem;
     private Button btn_addColor;
-
+    private TextView txt_newOrder;
     private String color;
 
     Item item = new Item();
@@ -66,10 +67,22 @@ public class NewOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
 
+        String OrdersName = "com.dentistry.ahmed.orderonline.Orders";
+        String MainName = "com.dentistry.ahmed.orderonline.MainActivity";
+
+
+
+
+
+
         itemList = new ArrayList<>();
         colorList = new ArrayList<>();
 
         intiViews();
+
+       // Log.e("ID",getIntent().getStringExtra("OrderID"));
+
+        checkActivity(OrdersName);
 
         Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -120,7 +133,7 @@ public class NewOrderActivity extends AppCompatActivity {
         });
 
        //submit to make order
-        submit();
+        //submit();
 
 
 
@@ -134,6 +147,7 @@ public class NewOrderActivity extends AppCompatActivity {
         btn_addItem = findViewById(R.id.btn_addItem);
         btn_addColor = findViewById(R.id.btn_addColor);
         btn_submit = findViewById(R.id.btn_submit);
+        txt_newOrder = findViewById(R.id.txt_newOrder);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(5);
 
@@ -141,8 +155,91 @@ public class NewOrderActivity extends AppCompatActivity {
     }
 
 
+    private void checkActivity(String ActivityName){
+        if (getCallingActivity().getClassName().equals("com.dentistry.ahmed.orderonline.Orders")){
+            txt_newOrder.setText("Modify Order");
+            btn_submit.setText("Modify");
+            Log.e("ID",getIntent().getStringExtra("OrderID"));
+
+            String orderID = getIntent().getStringExtra("OrderID");
+            modify(orderID);
+
+        }else {
+            txt_newOrder.setText("New Order");
+            submit();
+        }
+    }
+
+
+    private void modify(final String orderID){
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String userName;
+                String Email;
+                String orderTitle;
+                String orderImage_URL;
+                String orderPrice;
+                String orderDescription;
+                String orderColor;
+                int quantity;
+
+
+                userName = MyFireBase.getCurrentUser().getDisplayName();
+                Email  = MyFireBase.getCurrentUser().getEmail();
+                orderTitle = item.getName();
+                orderImage_URL = item.getImage();
+                orderPrice = item.getPrice();
+                orderDescription = item.getDescription();
+                orderColor = getColor();
+                numberPicker.setOnValueChangedListener(onValueChangeListener);
+                quantity = numberPicker.getValue();
+
+                HashMap<String,Object> hashMap = new HashMap<>();
+                hashMap.put("id",orderID);
+                hashMap.put("userName",userName);
+                hashMap.put("Email",Email);
+                hashMap.put("title",orderTitle);
+                hashMap.put("image_URL",orderImage_URL);
+                hashMap.put("price",orderPrice);
+                hashMap.put("description",orderDescription);
+                hashMap.put("color",orderColor);
+                hashMap.put("quantity",quantity);
+                hashMap.put("orderName",orderTitle);
+
+
+                MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
+                        .child(orderID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(NewOrderActivity.this, "Order saved", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(NewOrderActivity.this, Orders.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            Toast.makeText(NewOrderActivity.this, "Order didn't save", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
 
     private void submit(){
+
+
+
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,7 +254,8 @@ public class NewOrderActivity extends AppCompatActivity {
                 String orderColor;
                 int quantity;
 
-                orderID = MyFireBase.getCurrentUser().getUid();
+                orderID =  MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
+                           .push().getKey();
                 userName = MyFireBase.getCurrentUser().getDisplayName();
                 Email  = MyFireBase.getCurrentUser().getEmail();
                 orderTitle = item.getName();
@@ -182,8 +280,8 @@ public class NewOrderActivity extends AppCompatActivity {
 
 
 
-                MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
-                        .push().setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid()).child(orderID)
+                        .setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -199,11 +297,10 @@ public class NewOrderActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
             }
         });
+        Log.e("name",getCallingActivity().getClassName());
+
 
     }
 
@@ -225,6 +322,7 @@ public class NewOrderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 View view = snapHelper.findSnapView(layoutManager);
                 int position = recyclerView.getChildAdapterPosition(view);
+                item.setName(itemList.get(position).getName());
                 item.setImage( itemList.get(position).getImage());
                 item.setDescription( itemList.get(position).getDescription());
                 item.setPrice(itemList.get(position).getPrice());
