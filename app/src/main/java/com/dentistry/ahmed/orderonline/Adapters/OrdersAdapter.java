@@ -20,6 +20,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     private List<Order> orderList;
     private Context context;
     private onItemClickListener onEditClickListener;
+    private onItemClickListener onDeleteClickListener;
 
 
     public OrdersAdapter(Context context,List<Order> orderList) {
@@ -29,6 +30,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     public void setOnEditClickListener(onItemClickListener onEditClickListener) {
         this.onEditClickListener = onEditClickListener;
+    }
+
+    public void setOnDeleteClickListener(onItemClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
@@ -61,6 +66,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 });
             }
 
+        if(onDeleteClickListener!=null){
+            holder.img_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onDeleteClickListener.onClick(position,orderItem);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -77,6 +91,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
             ImageView img_edit;
             ImageView orderImage;
+            ImageView img_delete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,6 +102,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             txt_orderName = itemView.findViewById(R.id.txt_orderName);
             txt_orderQuantity = itemView.findViewById(R.id.txt_orderQuantity);
             orderImage = itemView.findViewById(R.id.orderImage);
+            img_delete = itemView.findViewById(R.id.img_delete);
             img_edit = itemView.findViewById(R.id.img_edit);
 
         }

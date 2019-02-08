@@ -19,18 +19,13 @@ public class MyFireBase {
     private static DatabaseReference referenceOnDeals;
     private static DatabaseReference referenceOnColors;
     private static DatabaseReference referenceOnOrders;
-    private static DatabaseReference referenceOnCurrentUser;
-    private static DatabaseReference referenceOnDataBase;
-    private static DatabaseReference referenceOnChats;
-    private static DatabaseReference referenceOnPhotos;
-    private static DatabaseReference referenceOnChatList;
-    private static DatabaseReference referenceOnFollowings;
+
     private static FirebaseUser currentUser;
     private static StorageReference storageReferenceOnUploads;
     private static StorageReference storageReferenceOnPhotos;
 
 
-    private static DatabaseReference yourNewReference;
+
 
     public static FirebaseAuth getAuth() {
 
@@ -81,16 +76,7 @@ public class MyFireBase {
         return currentUser;
     }
 
-    public static void initANewBranchWithChild(String branchName, String child, HashMap<String,Object> hashMap){
-        getGetFirebaseDatabase().getReference(branchName).child(child).push().setValue(hashMap);
 
-    }
-    public static void updateAChild(String branchName, String child, HashMap<String,Object> hashMap){
-        getGetFirebaseDatabase().getReference(branchName).child(child).updateChildren(hashMap);
- MyFireBase.getReferenceOnAllUsers().child(MyFireBase.getCurrentUser().getUid())
-                .updateChildren(hashMap);
-
-    }
 
     public static DatabaseReference getReferenceOnAllUsers() {
 
@@ -117,36 +103,7 @@ public class MyFireBase {
         return referenceOnAllUsers = getGetFirebaseDatabase().getReference("orders");
     }
 
-    public static DatabaseReference getReferenceOnCurrentUserID() {
 
-        return referenceOnCurrentUser = getGetFirebaseDatabase().getReference("Users").child(getCurrentUser().getUid());
-    }
-
-    public static DatabaseReference getReferenceOnChats() {
-
-        return referenceOnChats = getGetFirebaseDatabase().getReference("Chats");
-    }
-
-    public static DatabaseReference getReferenceOnChatList() {
-
-        return referenceOnChatList = getGetFirebaseDatabase().getReference("ChatList");
-    }
-
-    public static DatabaseReference getReferenceOnPhotos() {
-
-        return referenceOnPhotos = getGetFirebaseDatabase().getReference("Photos");
-    }
-
-    public static DatabaseReference getReferenceOnFollowings() {
-
-        return referenceOnFollowings = getGetFirebaseDatabase().getReference("Ahmed");
-    }
-
-    public static DatabaseReference getReferenceOnDataBase() {
-
-        return referenceOnDataBase= getGetFirebaseDatabase().getReference();
-
-    }
 
     public static String getCurrentUserID(){
         return getCurrentUser().getUid();

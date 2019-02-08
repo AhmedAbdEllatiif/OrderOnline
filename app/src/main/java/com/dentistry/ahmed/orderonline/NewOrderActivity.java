@@ -37,8 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NewOrderActivity extends AppCompatActivity {
-    private NumberPicker numberPicker;
 
+
+    private NumberPicker numberPicker;
     private List<Item> itemList;
     private RecyclerView recyclerView;
     private ItemsAdapter adapter;
@@ -50,40 +51,25 @@ public class NewOrderActivity extends AppCompatActivity {
     private Button btn_addColor;
     private TextView txt_newOrder;
     private String color;
+    private Item item;
 
-    Item item = new Item();
 
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_order);
 
-        String OrdersName = "com.dentistry.ahmed.orderonline.Orders";
-        String MainName = "com.dentistry.ahmed.orderonline.MainActivity";
 
-
-
-
-
-
-        itemList = new ArrayList<>();
-        colorList = new ArrayList<>();
 
         intiViews();
 
-       // Log.e("ID",getIntent().getStringExtra("OrderID"));
-
+        //check from which activity
+        String OrdersName = "com.dentistry.ahmed.orderonline.Orders";
         checkActivity(OrdersName);
 
+        //update current user info
         Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -132,10 +118,6 @@ public class NewOrderActivity extends AppCompatActivity {
             }
         });
 
-       //submit to make order
-        //submit();
-
-
 
 
     }
@@ -152,17 +134,38 @@ public class NewOrderActivity extends AppCompatActivity {
         numberPicker.setMaxValue(5);
 
 
+        itemList = new ArrayList<>();
+        colorList = new ArrayList<>();
+        item = new Item();
+
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
 
     private void checkActivity(String ActivityName){
-        if (getCallingActivity().getClassName().equals("com.dentistry.ahmed.orderonline.Orders")){
-            txt_newOrder.setText("Modify Order");
-            btn_submit.setText("Modify");
-            Log.e("ID",getIntent().getStringExtra("OrderID"));
+        if (getCallingActivity().getClassName().equals(ActivityName)){
 
-            String orderID = getIntent().getStringExtra("OrderID");
-            modify(orderID);
+
+            if(getIntent().getStringExtra("OrderID")!= null){
+                Log.e("ID",getIntent().getStringExtra("OrderID"));
+
+                String orderID = getIntent().getStringExtra("OrderID");
+                modify(orderID);
+
+                txt_newOrder.setText("Modify Order");
+                btn_submit.setText("Modify");
+            }else {
+                submit();
+            }
+
+
 
         }else {
             txt_newOrder.setText("New Order");

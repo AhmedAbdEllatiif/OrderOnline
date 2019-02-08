@@ -75,7 +75,8 @@ public class RegistertionActivity extends AppCompatActivity {
             }
         });
     }
-    private static DatabaseReference userReference;
+
+
     public void register(final String userName, final String email, String password, final String userBirthday) {
         Log.e("Register Method","Is here");
         //to create a new user with the email and password

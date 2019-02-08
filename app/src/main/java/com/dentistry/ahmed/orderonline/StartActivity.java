@@ -20,10 +20,18 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         btn_login = findViewById(R.id.btn_login_start);
+        btn_register = findViewById(R.id.btn_register_start);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StartActivity.this,RegistertionActivity.class));
                 finish();
             }
         });

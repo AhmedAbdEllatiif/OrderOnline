@@ -51,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText edit_txt_birthday;
     private Button btn_update_profileActivity;
     private Button btn_cancel_profileActivity;
+    private Button btn_logout;
 
 
     //Variables to update profile Info
@@ -66,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         initViews();
-        //setToolBar();
+
         MyOnClickListeners();
 
 
@@ -114,7 +115,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateUserProfile();
-
+                txt_userName_profileActivity.setVisibility(View.VISIBLE);
+                txt_birthday.setVisibility(View.VISIBLE);
+                editText_username_profileActivity.setVisibility(View.INVISIBLE);
+                btn_update_profileActivity.setVisibility(View.GONE);
+                btn_cancel_profileActivity.setVisibility(View.GONE);
+                txt_change_profileImage.setVisibility(View.GONE);
+                img_btn_calender.setVisibility(View.GONE);
+                edit_txt_birthday.setVisibility(View.GONE);
 
             }
         });
@@ -127,13 +135,18 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-       /* img_btn_calender.setOnClickListener(new View.OnClickListener() {
+        btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerDialogFragment();
-                newFragment.show(getSupportFragmentManager(), "datePicker");
+                MyFireBase.getAuth().signOut();
+                startActivity(new Intent(ProfileActivity.this, StartActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+                finish();
             }
-        });*/
+        });
+
+
 
 
     }
@@ -150,6 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
         btn_cancel_profileActivity = findViewById(R.id.btn_cancel_profileActivity);
         txt_birthday = findViewById(R.id.txt_birthday);
         img_btn_calender = findViewById(R.id.img_btn_calender);
+        btn_logout = findViewById(R.id.btn_logout);
 
 
 
@@ -181,40 +195,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-/*    private void setToolBar() {
-        Toolbar toolbar = findViewById(R.id.profileActivity_ToolBar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        final TextView userNameToolBar = findViewById(R.id.profileActivity_userName);
-        final ImageView imgToolBar= findViewById(R.id.profileActivity_profile_Image);
-
-        //set user data in the toolBar
-        MyFireBase.getReferenceOnAllUsers().child(MyFireBase.getCurrentUserID()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                User user = dataSnapshot.getValue(User.class);
-
-                if (user.getUserName() != null) {
-                    userNameToolBar.setText(user.getUserName());
-                }
-
-                if (user.getImageURL().equals("default")) {
-                    imgToolBar.setImageResource(R.mipmap.ic_launcher);
-                } else {
-                    Picasso.get().load(user.getImageURL()).into(imgToolBar);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }*/
 
 
     private void openFileChooser(){
@@ -357,8 +337,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-/*    @Override
-    public void onComplete(String birthday) {
-        edit_txt_birthday.setText(birthday);
-    }*/
 }

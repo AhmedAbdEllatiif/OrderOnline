@@ -1,16 +1,13 @@
 package com.dentistry.ahmed.orderonline;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import com.dentistry.ahmed.orderonline.Adapters.DealsAdapters;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
@@ -45,26 +42,30 @@ private ImageView img_trackOrder;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      /*  //firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("Users").child("name").setValue("Ahmed");*/
-      // MyFireBase.getReferenceOnAllUsers().child("Ahmed").setValue();
 
-        Log.e("user",MyFireBase.getCurrentUser().getEmail());
-        Log.e("user",MyFireBase.getCurrentUser().getUid());
-       // Log.e("user",MyFireBase.getCurrentUser().getDisplayName());
+        initViews();
+
+        MyonClickListeners();
+
+        setRecyclerViewDeals();
 
 
+    }
+
+
+    private void initViews() {
         recyclerView = findViewById(R.id.deals_recyclerView);
         img_profile = findViewById(R.id.img_profile);
         img_newOrder = findViewById(R.id.img_newOrder);
         img_trackOrder = findViewById(R.id.img_trackOrder);
+    }
 
+    private void MyonClickListeners() {
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,ProfileActivity.class));
-                finish();
+
             }
         });
         img_newOrder.setOnClickListener(new View.OnClickListener() {
@@ -81,38 +82,34 @@ private ImageView img_trackOrder;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Orders.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+
             }
         });
+    }
 
-
-
+    private void setRecyclerViewDeals() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         dealsList =  new ArrayList<>();
-    MyFireBase.getReferenceOnDeals().addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                Deals deals = snapshot.getValue(Deals.class);
+        MyFireBase.getReferenceOnDeals().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Deals deals = snapshot.getValue(Deals.class);
 
-                dealsList.add(deals);
+                    dealsList.add(deals);
+                }
+                adapter = new DealsAdapters(MainActivity.this,dealsList);
+                recyclerView.setAdapter(adapter);
+
             }
-            adapter = new DealsAdapters(MainActivity.this,dealsList);
-            recyclerView.setAdapter(adapter);
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
-
-
+            }
+        });
     }
-
 
 }

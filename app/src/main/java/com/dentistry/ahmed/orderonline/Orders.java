@@ -2,10 +2,12 @@ package com.dentistry.ahmed.orderonline;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.dentistry.ahmed.orderonline.Adapters.OrdersAdapter;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
@@ -22,7 +24,7 @@ public class Orders extends AppCompatActivity {
     private List<Order> orderList;
     private OrdersAdapter adapter;
     private RecyclerView recyclerView;
-
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,19 @@ public class Orders extends AppCompatActivity {
         setContentView(R.layout.activity_orders);
 
         recyclerView = findViewById(R.id.orders_recyclerView);
+        fab = findViewById(R.id.fab);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(Orders.this,NewOrderActivity.class);
+                startActivityForResult(intent,20);
+
+            }
+        });
+
 
 
         orderList = new ArrayList<>();
@@ -44,6 +58,15 @@ public class Orders extends AppCompatActivity {
                 }
                 adapter = new OrdersAdapter(Orders.this,orderList);
                 recyclerView.setAdapter(adapter);
+
+                adapter.setOnDeleteClickListener(new OrdersAdapter.onItemClickListener() {
+                    @Override
+                    public void onClick(int position, Order order) {
+                        MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
+                                .child(order.getId())
+                                .removeValue();
+                    }
+                });
 
                 adapter.setOnEditClickListener(new OrdersAdapter.onItemClickListener() {
                     @Override
@@ -60,6 +83,9 @@ public class Orders extends AppCompatActivity {
                         startActivityForResult(intent,20);
 
                     }
+
+
+
                 });
             }
 
