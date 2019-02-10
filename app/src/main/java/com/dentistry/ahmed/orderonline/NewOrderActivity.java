@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -213,6 +214,11 @@ public class NewOrderActivity extends AppCompatActivity {
                 hashMap.put("orderName",orderTitle);
 
 
+                if(orderColor == null || orderImage_URL == null){
+                    Snackbar snackbar = Snackbar.make(v,"Please Add Item and Color",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }else
+
                 MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
                         .child(orderID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -282,6 +288,10 @@ public class NewOrderActivity extends AppCompatActivity {
                 hashMap.put("orderName",orderTitle);
 
 
+                if(orderColor == null || orderImage_URL == null){
+                    Snackbar snackbar = Snackbar.make(v,"Please Add Item and Color",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }else
 
                 MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid()).child(orderID)
                         .setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -291,7 +301,7 @@ public class NewOrderActivity extends AppCompatActivity {
                             Toast.makeText(NewOrderActivity.this, "Order saved", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(NewOrderActivity.this, Orders.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
 
