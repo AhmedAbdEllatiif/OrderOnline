@@ -1,4 +1,4 @@
-package com.dentistry.ahmed.orderonline;
+package com.dentistry.ahmed.orderonline.ViewModel;
 
 import android.app.Activity;
 import android.app.Application;
@@ -8,17 +8,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.dentistry.ahmed.orderonline.MainActivity;
+import com.dentistry.ahmed.orderonline.Repository.MyRepository;
 
 public class LoginViewModel extends AndroidViewModel {
 
-    private Repository repository;
+    private MyRepository myRepository;
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        repository = new Repository();
+        myRepository = new MyRepository();
     }
 
     public void Login(final Activity activity, String txt_email, String txt_password ){
@@ -27,7 +25,7 @@ public class LoginViewModel extends AndroidViewModel {
             Toast.makeText(activity, "All fields required ", Toast.LENGTH_SHORT).show();
         } else {
 
-            if (repository.checkLoginUser(txt_email,txt_password)){
+            if (myRepository.checkLoginUser(txt_email,txt_password)){
                 Intent intent = new Intent(activity,MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity(intent);

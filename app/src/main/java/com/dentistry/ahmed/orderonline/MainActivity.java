@@ -1,6 +1,6 @@
 package com.dentistry.ahmed.orderonline;
 
-import android.content.Intent;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.dentistry.ahmed.orderonline.Adapters.DealsAdapters;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
 import com.dentistry.ahmed.orderonline.Model.Deals;
+import com.dentistry.ahmed.orderonline.ViewModel.MainActivityViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -33,6 +35,7 @@ private List<Deals> dealsList;
 private ImageView img_profile;
 private ImageView img_newOrder;
 private ImageView img_trackOrder;
+private MainActivityViewModel viewModel;
 
 
 
@@ -44,6 +47,8 @@ private ImageView img_trackOrder;
 
 
         initViews();
+
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
 
         MyonClickListeners();
 
@@ -64,15 +69,14 @@ private ImageView img_trackOrder;
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
+              viewModel.startProfileActivity(MainActivity.this);
 
             }
         });
         img_newOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,NewOrderActivity.class);
-                startActivityForResult(intent,2);
+              viewModel.startNewOrderActivity(MainActivity.this);
 
             }
         });
@@ -81,35 +85,16 @@ private ImageView img_trackOrder;
         img_trackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Orders.class);
-                startActivity(intent);
+                viewModel.startOrdersActivity(MainActivity.this);
 
             }
         });
     }
 
     private void setRecyclerViewDeals() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
-        dealsList =  new ArrayList<>();
-        MyFireBase.getReferenceOnDeals().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Deals deals = snapshot.getValue(Deals.class);
+        viewModel.setRecyclerViewDeals(this,recyclerView,dealsList);
 
-                    dealsList.add(deals);
-                }
-                adapter = new DealsAdapters(MainActivity.this,dealsList);
-                recyclerView.setAdapter(adapter);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 }

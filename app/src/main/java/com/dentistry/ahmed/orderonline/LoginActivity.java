@@ -1,22 +1,15 @@
 package com.dentistry.ahmed.orderonline;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.dentistry.ahmed.orderonline.ViewModel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText email, password;
@@ -36,9 +29,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViews();
-        clickLoginButton();
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+
+        clickLoginButton();
+
 
 
 
@@ -53,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.myToolBar);
     }
 
+
     private void clickLoginButton() {
-        //to login with the email & password
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
