@@ -93,7 +93,7 @@ private MainActivityViewModel viewModel;
 
     private void setRecyclerViewDeals() {
 
-        viewModel.setRecyclerViewDeals(this,recyclerView,dealsList);
+        viewModel.setRecyclerViewDeals(this,recyclerView);
 
     }
 

@@ -47,13 +47,13 @@ public class MainActivityViewModel extends AndroidViewModel {
     }
 
 
-    public void setRecyclerViewDeals(Activity activity, RecyclerView recyclerView,List<Deals> dealsList){
+    public void setRecyclerViewDeals(Activity activity, RecyclerView recyclerView){
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false);
-
         recyclerView.setLayoutManager(layoutManager);
 
-        dealsList = new ArrayList<>();
+
+         List<Deals> dealsList = new ArrayList<>();
 
         repository.getAllDeals(activity,recyclerView, dealsList);
 

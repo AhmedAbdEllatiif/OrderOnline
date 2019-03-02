@@ -1,5 +1,6 @@
 package com.dentistry.ahmed.orderonline;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.dentistry.ahmed.orderonline.Adapters.OrdersAdapter;
 import com.dentistry.ahmed.orderonline.FireBase.MyFireBase;
 import com.dentistry.ahmed.orderonline.Model.Order;
+import com.dentistry.ahmed.orderonline.ViewModel.OrdersViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -24,118 +26,53 @@ import java.util.List;
 
 public class Orders extends AppCompatActivity{
 
-    private List<Order> orderList;
-    private OrdersAdapter adapter;
+
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private SwipeRefreshLayout swipeRefresh;
+
+    private OrdersViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
 
-        recyclerView = findViewById(R.id.orders_recyclerView);
+        initViews();
+
+
+        viewModel = ViewModelProviders.of(Orders.this).get(OrdersViewModel.class);
+        viewModel.setSwipeToRefresh(swipeRefresh);
+        viewModel.getAllOrders(this,recyclerView,swipeRefresh);
+
+
+        floatingActionButtonClickListener(viewModel);
+
+
+    }
+
+
+
+    private void initViews() {
         fab = findViewById(R.id.fab);
         swipeRefresh = findViewById(R.id.swipeRefresh);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        getDate();
-
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary,
-                android.R.color.holo_green_dark,
-                android.R.color.holo_orange_dark,
-                android.R.color.holo_blue_dark);
-
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefresh.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        swipeRefresh.setRefreshing(false);
-
-                        getDate();
-
-                    }
-                },3000);
-            }
-        });
+        recyclerView = findViewById(R.id.orders_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(Orders.this));
+    }
 
 
 
-
+    private void floatingActionButtonClickListener(final OrdersViewModel viewModel) {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =  new Intent(Orders.this,NewOrderActivity.class);
-                startActivityForResult(intent,20);
+               viewModel.fabButtonStartNewOrderActivity(Orders.this);
 
             }
         });
-
-
-
-
-
-
     }
 
-    private void getDate(){
-
-        swipeRefresh.setRefreshing(true);
-        orderList = new ArrayList<>();
-        MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                orderList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Order order = snapshot.getValue(Order.class);
-                    orderList.add(order);
-                }
-                adapter = new OrdersAdapter(Orders.this,orderList);
-                recyclerView.setAdapter(adapter);
-
-                adapter.setOnDeleteClickListener(new OrdersAdapter.onItemClickListener() {
-                    @Override
-                    public void onClick(int position, Order order) {
-                        MyFireBase.getReferenceOnOrders().child(MyFireBase.getCurrentUser().getUid())
-                                .child(order.getId())
-                                .removeValue();
-                        //To refresh the recyclerView
-                        getDate();
-                    }
-                });
-
-                adapter.setOnEditClickListener(new OrdersAdapter.onItemClickListener() {
-                    @Override
-                    public void onClick(int position, Order order) {
-
-                        Intent intent = new Intent(Orders.this,NewOrderActivity.class);
-                        intent.putExtra("imageURL",order.getImage_URL());
-                        intent.putExtra("color",order.getColor());
-                        intent.putExtra("quantity",order.getQuantity());
-                        intent.putExtra("OrderID",order.getId());
-                        intent.putExtra("Ahmed","1");
 
 
-                        startActivityForResult(intent,20);
-
-                    }
-
-
-
-                });
-                swipeRefresh.setRefreshing(false);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Orders.this, "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 }
